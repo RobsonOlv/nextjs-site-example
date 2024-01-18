@@ -1,19 +1,32 @@
-import type { GetServerSideProps, NextPage } from "next"
-type Props = {
-  date: string
+import { GetServerSideProps, InferGetServerSidePropsType } from "next"
+
+export default function Index({
+  time,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  return (
+    <main>
+      <h1>SSR Caching with Next.js</h1>
+      <time dateTime={time}>{time}</time>
+    </main>
+  )
 }
-const Home: NextPage<Props> = ({ date }) => {
-  return <div>This page is generated on {date}</div>
-}
-export default Home
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  ctx.res.setHeader(
+
+export const getServerSideProps: GetServerSideProps<{ time: string }> = async ({
+  res,
+}) => {
+  res.setHeader(
     "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59",
+  )
+
+  res.setHeader(
+    "Netlify-CDN-Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"
   )
+
   return {
     props: {
-      date: new Date().toISOString(),
+      time: new Date().toISOString(),
     },
   }
 }
