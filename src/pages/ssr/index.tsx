@@ -14,10 +14,10 @@ export default function Index({
 export const getServerSideProps: GetServerSideProps<{ time: string }> = async ({
   res,
 }) => {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59",
-  )
+  // res.setHeader(
+  //   "Cache-Control",
+  //   "public, s-maxage=10, stale-while-revalidate=59",
+  // )
 
   res.setHeader(
     "Netlify-CDN-Cache-Control",
