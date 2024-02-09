@@ -1,0 +1,23 @@
+name: Action Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    name: Scraper running
+    steps:
+      - name: 'get changed files'
+        id: generate-changed-files
+        uses: lots0logs/gh-action-get-changed-files@2.2.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          comment_tag: lighthouse-summary
+          message: ${{ steps.generate-changed-files.outputs.all }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
