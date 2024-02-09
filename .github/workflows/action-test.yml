@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Scraper running
     steps:
+      - uses: actions/checkout@v2.1.0
       - name: 'get changed files'
-        uses: actions/checkout@v2.1.0
         uses: jitterbit/get-changed-files@v1
         id: generate-changed-files
         with:
